@@ -1,4 +1,3 @@
-![Screw Apple Logo]()
 
 # GenericFactoryPool
 
