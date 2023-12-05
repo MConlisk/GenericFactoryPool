@@ -1,4 +1,4 @@
-![Screw Apple Logo](/Assets/Logo.png)
+![Screw Apple Logo](https://github.com/MConlisk/GenericFactoryPool/blob/master/GenericFactoryPool/Assets/Logo.png?raw=true)
 # GenericFactoryPool
 
 ## Introduction
