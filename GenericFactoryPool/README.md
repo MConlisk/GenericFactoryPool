@@ -49,7 +49,7 @@ The main methods provided by the GenericFactoryPool class are:
 ## Code Examples
 Here are some code examples that demonstrate how to use the GenericFactoryPool:
 
-```csharp
+csharp
 // Set the maximum capacity of the object pool
 GenericFactoryPool.SetMaxCapacity(10);
 
