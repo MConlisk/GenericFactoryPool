@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GenericFactoryPool</name>
+    </assembly>
+    <members>
+        <member name="T:GenericFactoryPool.GenericFactoryPool">
+            <summary>
+            Provides a generic object pool for creating and recycling objects of various types.
+            Object pooling helps improve performance by reusing objects instead of repeatedly
+            creating and destroying them.The Object Pool has a max size set to 64 by default.
+            </summary>
+            <remarks>
+            <br>The Following is an Example of how to use this Factory Pool.</br>
+            <br>The Example demonstrates a Pool of a List of strings. Though you can create any type you need. </br>
+            <br>Complete Usage Example: </br>
+            <example> <br> </br>
+            <br> <c>GenericFactoryPool.SetMaxCapacity(10);</c> </br>
+            <br> <c>Func&lt;List&lt;string&gt;&gt; listFactory = () => new List&lt;string&gt;();</c> </br>
+            <br> <c>var listPool = GenericFactoryPool.Create(listFactory);</c> </br>
+            <br> <c>listPool.SetResetAction(list => list.Clear());</c> </br>
+            <br> <c>GenericFactoryPool.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
+            <br> <c>var myList = listPool.GetObject(listFactory);</c> </br>
+            <br> <c>myList.Add("Item 1");</c> </br>
+            <br> <c>myList.Add("Item 2");</c> </br>
+            <br> <c>int count = GenericFactoryPool.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
+            <br> <c>GenericFactoryPool.Recycle(myList);</c> </br>
+            <br> <c>GenericFactoryPool.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
+            </example> </remarks>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.Create``1(System.Func{``0})">
+            <summary>
+            <br>Checks the <seealso cref="T:GenericFactoryPool.GenericFactoryPool.ObjectPool`1"/> or creates an object of the specified type using a factory pattern.</br>
+            <br>If an <seealso cref="T:GenericFactoryPool.GenericFactoryPool.ObjectPool`1"/> exists for the specified type, it will be used to retrieve
+            a recycled object; otherwise, a new <seealso cref="T:GenericFactoryPool.GenericFactoryPool.ObjectPool`1"/> will be created.</br>
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>Func&lt;List&lt;string&gt;&gt; listFactory = () => new List&lt;string&gt;();</c> </br>
+            <br> <c>var listPool = GenericFactoryPool.Create(listFactory);</c> </br>
+            </example> </remarks>
+            <typeparam name="T" >"The generic object type."</typeparam>
+            <param name="factoryMethod">A function that creates and returns an object of type T. </param>
+            <returns>An object of the specified type.</returns>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.Recycle``1(``0)">
+            <summary>
+            Recycles an object of the specified type back into the object pool if a pool exists.
+            If the object implements the `IRecyclable` interface, its state is reset before recycling.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>GenericFactoryPool.Recycle(myList);</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type of object to recycle.</typeparam>
+            <param name="item">The object to recycle.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.SetMaxCapacity(System.Int32)">
+            <summary>
+            Sets the Maximum capacity a pool can be,.
+            The new capacity can be any positive integer including 0 which indicates no capacity limit.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>GenericFactoryPool.SetMaxCapacity(10);</c> </br>
+            </example> </remarks>
+            <param name="newCapacity"></param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.SetPoolResetAction``1(System.Action{``0})">
+            <summary>
+            Sets a custom reset action to be invoked when an object is returned to the pool.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>listPool.SetResetAction(list => list.Clear());</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type of object for which to set the reset action.</typeparam>
+            <param name="resetAction">An action to reset the state of an object when it is retrieved from the pool.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ClearPool``1">
+            <summary>
+            Clears the object pool associated with the specified type, if it exists. This operation removes all objects
+            currently in the pool.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>GenericFactoryPool.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type for which the object pool should be cleared.</typeparam>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.GetPoolCount``1">
+            <summary>
+            Retrieves the count of objects currently in the object pool associated with the specified type, if it exists.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>int count = GenericFactoryPool.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type for which to retrieve the object pool count.</typeparam>
+            <returns>The number of objects currently in the object pool, or 0 if the pool does not exist.</returns>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.SetPoolSize``1(System.Int32,System.Func{``0})">
+            <summary>
+            Sets the size of the object pool associated with the specified type and specifies a factory method for creating new objects
+            when the pool needs to be expanded. The size argument needs to be a positive integer no larger than the max capacity. 
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>GenericFactoryPool.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type for which to set the object pool size.</typeparam>
+            <param name="size">The desired size of the object pool.</param>
+            <param name="factoryMethod">A delegate that creates new instances of type T when needed.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.PrepopulatePool``1(System.Int32,System.Func{``0})">
+            <summary>
+            Prepopulates the object pool associated with the specified type with a specified number of objects, using the provided factory method.
+            </summary>
+            <remarks>
+            <br>Example Usage:</br>
+            <example><br> </br>
+            <br> <c>GenericFactoryPool.PrepopulatePool&lt;List&lt;string&gt;&gt;(5, listFactory);</c> </br>
+            </example> </remarks>
+            <typeparam name="T">The type for which to prepopulate the object pool.</typeparam>
+            <param name="count">The number of objects to prepopulate the pool with.</param>
+            <param name="factoryMethod">A delegate that creates new instances of type T for prepopulating the pool.</param>
+        </member>
+        <member name="T:GenericFactoryPool.GenericFactoryPool.ObjectPool`1">
+            <summary>
+            An Ordered object pool of the specified type <typeparamref name="T"/>, used by the Generic Factory Pool to store object types.
+            Not for outside use. 
+            </summary>
+            <typeparam name="T">The type of object this pool holds.</typeparam>
+        </member>
+        <member name="F:GenericFactoryPool.GenericFactoryPool.ObjectPool`1._pool">
+            <summary>
+            The pool will hold the items ready to be used.
+            if no items are available one will be made.
+            all returned items will be added to the pool if the max size has not been reached.
+            </summary>
+        </member>
+        <member name="F:GenericFactoryPool.GenericFactoryPool.ObjectPool`1._resetAction">
+            <summary>
+            The ResetAction allow for a custom reset action to be invoked when an item is returned. 
+            </summary>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.GetObject(System.Func{`0})">
+            <summary>
+            Gets an object from the pool, either by reusing a recycled object or by creating a new one.
+            </summary>
+            <param name="factoryMethod">A function that creates and returns an object of type T.</param>
+            <returns>An object of type T from the pool.</returns>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.ReturnObject(`0)">
+            <summary>
+            Returns an object back to the pool for potential reuse.
+            If the object implements the `IRecyclable` interface, its state is reset before recycling.
+            </summary>
+            <param name="item">The object to return to the pool.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.Clear">
+            <summary>
+            Clears all objects from the object pool by dequeuing them until the pool is empty.
+            </summary>
+        </member>
+        <member name="P:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.Count">
+            <summary>
+            Gets the current count of objects in the object pool.
+            </summary>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.SetSize(System.Int32,System.Func{`0})">
+            <summary>
+            Sets the size of the object pool, adjusting it to the specified size while using the provided factory method
+            to create new objects as needed or removing excess objects.
+            </summary>
+            <param name="size">The desired size of the object pool.</param>
+            <param name="factoryMethod">A delegate that creates new instances of type T when needed.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.Prepopulate(System.Int32,System.Func{`0})">
+            <summary>
+            Prepopulates the object pool with a specified number of objects, using the provided factory method.
+            </summary>
+            <param name="count">The number of objects to prepopulate the pool with.</param>
+            <param name="factoryMethod">A delegate that creates new instances of type T for prepopulating the pool.</param>
+        </member>
+        <member name="M:GenericFactoryPool.GenericFactoryPool.ObjectPool`1.SetResetAction(System.Action{`0})">
+            <summary>
+            Sets a custom reset action to be invoked when an object is returned to the pool.
+            </summary>
+            <param name="resetAction">An action to reset the state of an object when it is retrieved from the pool.</param>
+        </member>
+        <member name="T:GenericFactoryPool.Interfaces.IRecyclable">
+            <summary>
+            Represents an interface for objects that can be recycled by resetting their internal state.
+            Objects implementing this interface should provide a method to reset their state to a
+            predefined initial condition, allowing them to be reused efficiently.
+            </summary>
+        </member>
+        <member name="M:GenericFactoryPool.Interfaces.IRecyclable.ResetState">
+            <summary>
+            Resets the internal state of the object to its initial condition, making it
+            available for reuse without the need for creating a new instance.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,106 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net6.0</TargetFramework>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DocumentationFile>D:\Repos\GenericFactoryPool\GenericFactoryPool\Documents\Documentation.XML</DocumentationFile>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Title>Generic Factory Pool</Title>
+	<Authors>Matthew Conlisk</Authors>
+	<Company>ScrewApple</Company>
+	<Description>A generic object pool for creating and recycling objects of various types. Object pooling helps improve performance by reusing objects instead of repeatedly creating and destroying them.</Description>
+	<PackageIcon>Assets\Logo.png</PackageIcon>
+	<NeutralLanguage>en-001</NeutralLanguage>
+	<EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	<ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
+	<PackageTags>Factory, Pool, Generic, C#</PackageTags>
+	<RepositoryUrl>https://github.com/MConlisk/GenericFactoryPool</RepositoryUrl>
+	<IncludeSymbols>True</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<AnalysisLevel>6.0-recommended</AnalysisLevel>
+	<PackageProjectUrl>https://github.com/MConlisk/GenericFactoryPool</PackageProjectUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryType>git</RepositoryType>
+	<PackageReleaseNotes>A small organizational change was made in the file hierarchy. </PackageReleaseNotes>
+	<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	<WarningLevel>6</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	<CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+	<WarningLevel>6</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Docs\**" />
+    <EmbeddedResource Remove="Docs\**" />
+    <None Remove="Docs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Compile Remove="Interfaces\IKeyedValues.cs" />
+	<Compile Remove="Properties\Resources.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Documents\CodeReview.txt" />
+    <None Remove="Documents\Documentation.XML" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Content Include="Assets\Logo.ico">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="Assets\Logo.png">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="Documents\CodeReview.txt">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="Documents\Documentation.XML">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<EmbeddedResource Include="README.md">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Update="Assets\Logo.png">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Update="Assets\Logo.png">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Update="LICENSE">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Update="README.md">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+  </ItemGroup>
+
+</Project>
