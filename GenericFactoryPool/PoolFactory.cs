@@ -1,8 +1,8 @@
-﻿using GenericFactoryPool.Interfaces;
+﻿using Factories.Interfaces;
 using System;
 using System.Collections.Concurrent;
 
-namespace GenericFactoryPool;
+namespace Factories;
 
 /// <summary>
 /// Provides a generic object pool for creating and recycling objects of various types.
@@ -10,23 +10,23 @@ namespace GenericFactoryPool;
 /// creating and destroying them.The Object Pool has a max size set to 64 by default.
 /// </summary>
 /// <remarks>
-/// <br>The Following is an Example of how to use this Factory Pool.</br>
+/// <br>The Following is an Example of how to use this PoolFactory Pool.</br>
 /// <br>The Example demonstrates a Pool of a List of strings. Though you can create any type you need. </br>
 /// <br>Complete Usage Example: </br>
 /// <example> <br> </br>
-/// <br> <c>GenericFactoryPool.SetMaxCapacity(10);</c> </br>
+/// <br> <c>PoolFactory.SetMaxCapacity(10);</c> </br>
 /// <br> <c>Func&lt;List&lt;string&gt;&gt; listFactory = () => new List&lt;string&gt;();</c> </br>
-/// <br> <c>var listPool = GenericFactoryPool.Create(listFactory);</c> </br>
+/// <br> <c>var listPool = PoolFactory.Create(listFactory);</c> </br>
 /// <br> <c>listPool.SetResetAction(list => list.Clear());</c> </br>
-/// <br> <c>GenericFactoryPool.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
+/// <br> <c>PoolFactory.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
 /// <br> <c>var myList = listPool.GetObject(listFactory);</c> </br>
 /// <br> <c>myList.Add("Item 1");</c> </br>
 /// <br> <c>myList.Add("Item 2");</c> </br>
-/// <br> <c>int count = GenericFactoryPool.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
-/// <br> <c>GenericFactoryPool.Recycle(myList);</c> </br>
-/// <br> <c>GenericFactoryPool.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
+/// <br> <c>int count = PoolFactory.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
+/// <br> <c>PoolFactory.Recycle(myList);</c> </br>
+/// <br> <c>PoolFactory.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
 /// </example> </remarks>
-public static class GenericFactoryPool
+public static class PoolFactory
 {
 	private static readonly ConcurrentDictionary<Type, object> _pools = new();
 	private static int _maxCapacity;
@@ -40,7 +40,7 @@ public static class GenericFactoryPool
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
 	/// <br> <c>Func&lt;List&lt;string&gt;&gt; listFactory = () => new List&lt;string&gt;();</c> </br>
-	/// <br> <c>var listPool = GenericFactoryPool.Create(listFactory);</c> </br>
+	/// <br> <c>var listPool = PoolFactory.Create(listFactory);</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T" >"The generic object type."</typeparam>
 	/// <param name="factoryMethod">A function that creates and returns an object of type T. </param>
@@ -68,7 +68,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>GenericFactoryPool.Recycle(myList);</c> </br>
+	/// <br> <c>PoolFactory.Recycle(myList);</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T">The type of object to recycle.</typeparam>
 	/// <param name="item">The object to recycle.</param>
@@ -92,7 +92,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>GenericFactoryPool.SetMaxCapacity(10);</c> </br>
+	/// <br> <c>PoolFactory.SetMaxCapacity(10);</c> </br>
 	/// </example> </remarks>
 	/// <param name="newCapacity"></param>
 	public static void SetMaxCapacity(int newCapacity)
@@ -132,7 +132,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>GenericFactoryPool.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
+	/// <br> <c>PoolFactory.ClearPool&lt;List&lt;string&gt;&gt;();</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T">The type for which the object pool should be cleared.</typeparam>
 	public static void ClearPool<T>()
@@ -149,7 +149,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>int count = GenericFactoryPool.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
+	/// <br> <c>int count = PoolFactory.GetPoolCount&lt;List&lt;string&gt;&gt;();</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T">The type for which to retrieve the object pool count.</typeparam>
 	/// <returns>The number of objects currently in the object pool, or 0 if the pool does not exist.</returns>
@@ -165,7 +165,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>GenericFactoryPool.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
+	/// <br> <c>PoolFactory.SetPoolSize&lt;List&lt;string&gt;&gt;(10, listFactory);</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T">The type for which to set the object pool size.</typeparam>
 	/// <param name="size">The desired size of the object pool.</param>
@@ -190,7 +190,7 @@ public static class GenericFactoryPool
 	/// <remarks>
 	/// <br>Example Usage:</br>
 	/// <example><br> </br>
-	/// <br> <c>GenericFactoryPool.PrepopulatePool&lt;List&lt;string&gt;&gt;(5, listFactory);</c> </br>
+	/// <br> <c>PoolFactory.PrepopulatePool&lt;List&lt;string&gt;&gt;(5, listFactory);</c> </br>
 	/// </example> </remarks>
 	/// <typeparam name="T">The type for which to prepopulate the object pool.</typeparam>
 	/// <param name="count">The number of objects to prepopulate the pool with.</param>
@@ -210,7 +210,7 @@ public static class GenericFactoryPool
 	}
 
 	/// <summary>
-	/// An Ordered object pool of the specified type <typeparamref name="T"/>, used by the Generic Factory Pool to store object types.
+	/// An Ordered object pool of the specified type <typeparamref name="T"/>, used by the Generic PoolFactory Pool to store object types.
 	/// Not for outside use. 
 	/// </summary>
 	/// <typeparam name="T">The type of object this pool holds.</typeparam>

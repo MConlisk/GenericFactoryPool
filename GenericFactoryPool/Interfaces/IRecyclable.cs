@@ -1,4 +1,4 @@
-﻿namespace GenericFactoryPool.Interfaces;
+﻿namespace Factories.Interfaces;
 
 /// <summary>
 /// Represents an interface for objects that can be recycled by resetting their internal state.
