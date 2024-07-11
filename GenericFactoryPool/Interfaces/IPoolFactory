@@ -1,4 +1,4 @@
-namespace Interfaced;
+namespace Factories.Interfaces;
 
 public interface IPoolFactory
 {
