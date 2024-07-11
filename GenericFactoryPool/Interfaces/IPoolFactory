@@ -1,0 +1,17 @@
+namespace Interfaced;
+
+public interface IPoolFactory
+{
+    T Create<T>(Func<T> factoryMethod);
+    void Recycle<T>(T item);
+    void SetMaxCapacity(int newCapacity);
+    void SetPoolResetAction<T>(Action<T> resetAction);
+    void ClearPool<T>();
+    int GetPoolCount<T>();
+    void SetPoolSize<T>(int size, Func<T> factoryMethod);
+    void PrepopulatePool<T>(int count, Func<T> factoryMethod);
+    void ShrinkPool<T>(int newSize);
+    void ExpandPool<T>(int newSize, Func<T> factoryMethod);
+    IEnumerable<T> GetPooledObjects<T>();
+    bool IsInPool<T>(T item);
+}
